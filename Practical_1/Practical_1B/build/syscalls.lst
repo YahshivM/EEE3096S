@@ -1,0 +1,439 @@
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"syscalls.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Core/Src/syscalls.c"
+  18              		.section	.text._close,"ax",%progbits
+  19              		.align	1
+  20              		.global	_close
+  21              		.syntax unified
+  22              		.code	16
+  23              		.thumb_func
+  25              	_close:
+  26              	.LVL0:
+  27              	.LFB0:
+   1:Core/Src/syscalls.c **** #include <sys/types.h>
+   2:Core/Src/syscalls.c **** #include <sys/stat.h>
+   3:Core/Src/syscalls.c **** #include <errno.h>
+   4:Core/Src/syscalls.c **** #include <stdint.h>
+   5:Core/Src/syscalls.c **** 
+   6:Core/Src/syscalls.c **** extern char _end; // Provided by linker: end of .bss/.data; start of heap
+   7:Core/Src/syscalls.c **** static char *heap_end = 0;
+   8:Core/Src/syscalls.c **** 
+   9:Core/Src/syscalls.c **** int _close(int file)
+  10:Core/Src/syscalls.c **** {
+  28              		.loc 1 10 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 10 1 is_stmt 0 view .LVU1
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  11:Core/Src/syscalls.c ****     (void)file;
+  38              		.loc 1 11 5 is_stmt 1 view .LVU2
+  12:Core/Src/syscalls.c ****     errno = ENOSYS;
+  39              		.loc 1 12 5 view .LVU3
+  40 0002 FFF7FEFF 		bl	__errno
+  41              	.LVL1:
+  42              		.loc 1 12 11 is_stmt 0 discriminator 1 view .LVU4
+  43 0006 5823     		movs	r3, #88
+  44 0008 0360     		str	r3, [r0]
+  13:Core/Src/syscalls.c ****     return -1;
+  45              		.loc 1 13 5 is_stmt 1 view .LVU5
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 2
+
+
+  46              		.loc 1 13 12 is_stmt 0 discriminator 1 view .LVU6
+  47 000a 0120     		movs	r0, #1
+  14:Core/Src/syscalls.c **** }
+  48              		.loc 1 14 1 view .LVU7
+  49 000c 4042     		rsbs	r0, r0, #0
+  50              		@ sp needed
+  51 000e 10BD     		pop	{r4, pc}
+  52              		.cfi_endproc
+  53              	.LFE0:
+  55              		.section	.text._fstat,"ax",%progbits
+  56              		.align	1
+  57              		.global	_fstat
+  58              		.syntax unified
+  59              		.code	16
+  60              		.thumb_func
+  62              	_fstat:
+  63              	.LVL2:
+  64              	.LFB1:
+  15:Core/Src/syscalls.c **** 
+  16:Core/Src/syscalls.c **** int _fstat(int file, struct stat *st)
+  17:Core/Src/syscalls.c **** {
+  65              		.loc 1 17 1 is_stmt 1 view -0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 0, uses_anonymous_args = 0
+  69              		.loc 1 17 1 is_stmt 0 view .LVU9
+  70 0000 10B5     		push	{r4, lr}
+  71              	.LCFI1:
+  72              		.cfi_def_cfa_offset 8
+  73              		.cfi_offset 4, -8
+  74              		.cfi_offset 14, -4
+  18:Core/Src/syscalls.c ****     (void)file;
+  75              		.loc 1 18 5 is_stmt 1 view .LVU10
+  19:Core/Src/syscalls.c ****     if (st == 0) {
+  76              		.loc 1 19 5 view .LVU11
+  77              		.loc 1 19 8 is_stmt 0 view .LVU12
+  78 0002 0029     		cmp	r1, #0
+  79 0004 04D0     		beq	.L5
+  20:Core/Src/syscalls.c ****         errno = EFAULT;
+  21:Core/Src/syscalls.c ****         return -1;
+  22:Core/Src/syscalls.c ****     }
+  23:Core/Src/syscalls.c ****     st->st_mode = S_IFCHR; // Character device (e.g., stdout/stderr)
+  80              		.loc 1 23 5 is_stmt 1 view .LVU13
+  81              		.loc 1 23 17 is_stmt 0 view .LVU14
+  82 0006 8023     		movs	r3, #128
+  83 0008 9B01     		lsls	r3, r3, #6
+  84 000a 4B60     		str	r3, [r1, #4]
+  24:Core/Src/syscalls.c ****     return 0;
+  85              		.loc 1 24 5 is_stmt 1 view .LVU15
+  86              		.loc 1 24 12 is_stmt 0 view .LVU16
+  87 000c 0020     		movs	r0, #0
+  88              	.LVL3:
+  89              	.L2:
+  25:Core/Src/syscalls.c **** }
+  90              		.loc 1 25 1 view .LVU17
+  91              		@ sp needed
+  92 000e 10BD     		pop	{r4, pc}
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 3
+
+
+  93              	.LVL4:
+  94              	.L5:
+  20:Core/Src/syscalls.c ****         errno = EFAULT;
+  95              		.loc 1 20 9 is_stmt 1 view .LVU18
+  96 0010 FFF7FEFF 		bl	__errno
+  97              	.LVL5:
+  20:Core/Src/syscalls.c ****         errno = EFAULT;
+  98              		.loc 1 20 15 is_stmt 0 discriminator 1 view .LVU19
+  99 0014 0E23     		movs	r3, #14
+ 100 0016 0360     		str	r3, [r0]
+  21:Core/Src/syscalls.c ****     }
+ 101              		.loc 1 21 9 is_stmt 1 view .LVU20
+  21:Core/Src/syscalls.c ****     }
+ 102              		.loc 1 21 16 is_stmt 0 view .LVU21
+ 103 0018 0120     		movs	r0, #1
+ 104 001a 4042     		rsbs	r0, r0, #0
+ 105 001c F7E7     		b	.L2
+ 106              		.cfi_endproc
+ 107              	.LFE1:
+ 109              		.section	.text._isatty,"ax",%progbits
+ 110              		.align	1
+ 111              		.global	_isatty
+ 112              		.syntax unified
+ 113              		.code	16
+ 114              		.thumb_func
+ 116              	_isatty:
+ 117              	.LVL6:
+ 118              	.LFB2:
+  26:Core/Src/syscalls.c **** 
+  27:Core/Src/syscalls.c **** int _isatty(int file)
+  28:Core/Src/syscalls.c **** {
+ 119              		.loc 1 28 1 is_stmt 1 view -0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		@ link register save eliminated.
+  29:Core/Src/syscalls.c ****     (void)file;
+ 124              		.loc 1 29 5 view .LVU23
+  30:Core/Src/syscalls.c ****     return 1; // Treat all fds as TTY
+ 125              		.loc 1 30 5 view .LVU24
+  31:Core/Src/syscalls.c **** }
+ 126              		.loc 1 31 1 is_stmt 0 view .LVU25
+ 127 0000 0120     		movs	r0, #1
+ 128              	.LVL7:
+ 129              		.loc 1 31 1 view .LVU26
+ 130              		@ sp needed
+ 131 0002 7047     		bx	lr
+ 132              		.cfi_endproc
+ 133              	.LFE2:
+ 135              		.section	.text._lseek,"ax",%progbits
+ 136              		.align	1
+ 137              		.global	_lseek
+ 138              		.syntax unified
+ 139              		.code	16
+ 140              		.thumb_func
+ 142              	_lseek:
+ 143              	.LVL8:
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 4
+
+
+ 144              	.LFB3:
+  32:Core/Src/syscalls.c **** 
+  33:Core/Src/syscalls.c **** int _lseek(int file, int ptr, int dir)
+  34:Core/Src/syscalls.c **** {
+ 145              		.loc 1 34 1 is_stmt 1 view -0
+ 146              		.cfi_startproc
+ 147              		@ args = 0, pretend = 0, frame = 0
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149              		.loc 1 34 1 is_stmt 0 view .LVU28
+ 150 0000 10B5     		push	{r4, lr}
+ 151              	.LCFI2:
+ 152              		.cfi_def_cfa_offset 8
+ 153              		.cfi_offset 4, -8
+ 154              		.cfi_offset 14, -4
+  35:Core/Src/syscalls.c ****     (void)file; (void)ptr; (void)dir;
+ 155              		.loc 1 35 5 is_stmt 1 view .LVU29
+ 156              		.loc 1 35 17 view .LVU30
+ 157              		.loc 1 35 28 view .LVU31
+  36:Core/Src/syscalls.c ****     errno = ENOSYS;
+ 158              		.loc 1 36 5 view .LVU32
+ 159 0002 FFF7FEFF 		bl	__errno
+ 160              	.LVL9:
+ 161              		.loc 1 36 11 is_stmt 0 discriminator 1 view .LVU33
+ 162 0006 5823     		movs	r3, #88
+ 163 0008 0360     		str	r3, [r0]
+  37:Core/Src/syscalls.c ****     return -1;
+ 164              		.loc 1 37 5 is_stmt 1 view .LVU34
+ 165              		.loc 1 37 12 is_stmt 0 discriminator 1 view .LVU35
+ 166 000a 0120     		movs	r0, #1
+  38:Core/Src/syscalls.c **** }
+ 167              		.loc 1 38 1 view .LVU36
+ 168 000c 4042     		rsbs	r0, r0, #0
+ 169              		@ sp needed
+ 170 000e 10BD     		pop	{r4, pc}
+ 171              		.cfi_endproc
+ 172              	.LFE3:
+ 174              		.section	.text._read,"ax",%progbits
+ 175              		.align	1
+ 176              		.global	_read
+ 177              		.syntax unified
+ 178              		.code	16
+ 179              		.thumb_func
+ 181              	_read:
+ 182              	.LVL10:
+ 183              	.LFB4:
+  39:Core/Src/syscalls.c **** 
+  40:Core/Src/syscalls.c **** int _read(int file, char *ptr, int len)
+  41:Core/Src/syscalls.c **** {
+ 184              		.loc 1 41 1 is_stmt 1 view -0
+ 185              		.cfi_startproc
+ 186              		@ args = 0, pretend = 0, frame = 0
+ 187              		@ frame_needed = 0, uses_anonymous_args = 0
+ 188              		@ link register save eliminated.
+  42:Core/Src/syscalls.c ****     (void)file; (void)ptr; (void)len;
+ 189              		.loc 1 42 5 view .LVU38
+ 190              		.loc 1 42 17 view .LVU39
+ 191              		.loc 1 42 28 view .LVU40
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 5
+
+
+  43:Core/Src/syscalls.c ****     // No input device; report EOF
+  44:Core/Src/syscalls.c ****     return 0;
+ 192              		.loc 1 44 5 view .LVU41
+  45:Core/Src/syscalls.c **** }
+ 193              		.loc 1 45 1 is_stmt 0 view .LVU42
+ 194 0000 0020     		movs	r0, #0
+ 195              	.LVL11:
+ 196              		.loc 1 45 1 view .LVU43
+ 197              		@ sp needed
+ 198 0002 7047     		bx	lr
+ 199              		.cfi_endproc
+ 200              	.LFE4:
+ 202              		.section	.text._write,"ax",%progbits
+ 203              		.align	1
+ 204              		.global	_write
+ 205              		.syntax unified
+ 206              		.code	16
+ 207              		.thumb_func
+ 209              	_write:
+ 210              	.LVL12:
+ 211              	.LFB5:
+  46:Core/Src/syscalls.c **** 
+  47:Core/Src/syscalls.c **** int _write(int file, const char *ptr, int len)
+  48:Core/Src/syscalls.c **** {
+ 212              		.loc 1 48 1 is_stmt 1 view -0
+ 213              		.cfi_startproc
+ 214              		@ args = 0, pretend = 0, frame = 0
+ 215              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216              		@ link register save eliminated.
+ 217              		.loc 1 48 1 is_stmt 0 view .LVU45
+ 218 0000 1000     		movs	r0, r2
+ 219              	.LVL13:
+  49:Core/Src/syscalls.c ****     (void)file; (void)ptr;
+ 220              		.loc 1 49 5 is_stmt 1 view .LVU46
+ 221              		.loc 1 49 17 view .LVU47
+  50:Core/Src/syscalls.c ****     // Discard output but report success to avoid blocking stdio users
+  51:Core/Src/syscalls.c ****     return len;
+ 222              		.loc 1 51 5 view .LVU48
+  52:Core/Src/syscalls.c **** }
+ 223              		.loc 1 52 1 is_stmt 0 view .LVU49
+ 224              		@ sp needed
+ 225 0002 7047     		bx	lr
+ 226              		.cfi_endproc
+ 227              	.LFE5:
+ 229              		.section	.text._sbrk,"ax",%progbits
+ 230              		.align	1
+ 231              		.global	_sbrk
+ 232              		.syntax unified
+ 233              		.code	16
+ 234              		.thumb_func
+ 236              	_sbrk:
+ 237              	.LVL14:
+ 238              	.LFB6:
+  53:Core/Src/syscalls.c **** 
+  54:Core/Src/syscalls.c **** void* _sbrk(int incr)
+  55:Core/Src/syscalls.c **** {
+ 239              		.loc 1 55 1 is_stmt 1 view -0
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 6
+
+
+ 240              		.cfi_startproc
+ 241              		@ args = 0, pretend = 0, frame = 0
+ 242              		@ frame_needed = 0, uses_anonymous_args = 0
+ 243              		.loc 1 55 1 is_stmt 0 view .LVU51
+ 244 0000 10B5     		push	{r4, lr}
+ 245              	.LCFI3:
+ 246              		.cfi_def_cfa_offset 8
+ 247              		.cfi_offset 4, -8
+ 248              		.cfi_offset 14, -4
+ 249 0002 0300     		movs	r3, r0
+  56:Core/Src/syscalls.c ****     if (heap_end == 0) {
+ 250              		.loc 1 56 5 is_stmt 1 view .LVU52
+ 251              		.loc 1 56 18 is_stmt 0 view .LVU53
+ 252 0004 0B4A     		ldr	r2, .L16
+ 253 0006 1268     		ldr	r2, [r2]
+ 254              		.loc 1 56 8 view .LVU54
+ 255 0008 002A     		cmp	r2, #0
+ 256 000a 08D0     		beq	.L14
+ 257              	.L11:
+  57:Core/Src/syscalls.c ****         heap_end = &_end;
+  58:Core/Src/syscalls.c ****     }
+  59:Core/Src/syscalls.c **** 
+  60:Core/Src/syscalls.c ****     char *prev_heap_end = heap_end;
+ 258              		.loc 1 60 5 is_stmt 1 view .LVU55
+ 259              		.loc 1 60 11 is_stmt 0 view .LVU56
+ 260 000c 094A     		ldr	r2, .L16
+ 261 000e 1068     		ldr	r0, [r2]
+ 262              	.LVL15:
+  61:Core/Src/syscalls.c **** 
+  62:Core/Src/syscalls.c ****     // Get current stack pointer
+  63:Core/Src/syscalls.c ****     register char *stack_ptr __asm__("sp");
+ 263              		.loc 1 63 5 is_stmt 1 view .LVU57
+  64:Core/Src/syscalls.c **** 
+  65:Core/Src/syscalls.c ****     if (heap_end + incr > stack_ptr) {
+ 264              		.loc 1 65 5 view .LVU58
+ 265              		.loc 1 65 18 is_stmt 0 view .LVU59
+ 266 0010 C318     		adds	r3, r0, r3
+ 267              	.LVL16:
+ 268              		.loc 1 65 8 view .LVU60
+ 269 0012 6A46     		mov	r2, sp
+ 270 0014 9342     		cmp	r3, r2
+ 271 0016 06D8     		bhi	.L15
+  66:Core/Src/syscalls.c ****         // Out of memory
+  67:Core/Src/syscalls.c ****         errno = ENOMEM;
+  68:Core/Src/syscalls.c ****         return (void*)-1;
+  69:Core/Src/syscalls.c ****     }
+  70:Core/Src/syscalls.c **** 
+  71:Core/Src/syscalls.c ****     heap_end += incr;
+ 272              		.loc 1 71 5 is_stmt 1 view .LVU61
+ 273              		.loc 1 71 14 is_stmt 0 view .LVU62
+ 274 0018 064A     		ldr	r2, .L16
+ 275 001a 1360     		str	r3, [r2]
+  72:Core/Src/syscalls.c ****     return prev_heap_end;
+ 276              		.loc 1 72 5 is_stmt 1 view .LVU63
+ 277              	.LVL17:
+ 278              	.L10:
+  73:Core/Src/syscalls.c **** } ...
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 7
+
+
+ 279              		.loc 1 73 1 is_stmt 0 view .LVU64
+ 280              		@ sp needed
+ 281 001c 10BD     		pop	{r4, pc}
+ 282              	.LVL18:
+ 283              	.L14:
+  57:Core/Src/syscalls.c ****         heap_end = &_end;
+ 284              		.loc 1 57 9 is_stmt 1 view .LVU65
+  57:Core/Src/syscalls.c ****         heap_end = &_end;
+ 285              		.loc 1 57 18 is_stmt 0 view .LVU66
+ 286 001e 054A     		ldr	r2, .L16
+ 287 0020 0549     		ldr	r1, .L16+4
+ 288 0022 1160     		str	r1, [r2]
+ 289 0024 F2E7     		b	.L11
+ 290              	.LVL19:
+ 291              	.L15:
+  67:Core/Src/syscalls.c ****         errno = ENOMEM;
+ 292              		.loc 1 67 9 is_stmt 1 view .LVU67
+ 293 0026 FFF7FEFF 		bl	__errno
+ 294              	.LVL20:
+  67:Core/Src/syscalls.c ****         errno = ENOMEM;
+ 295              		.loc 1 67 15 is_stmt 0 discriminator 1 view .LVU68
+ 296 002a 0C23     		movs	r3, #12
+ 297 002c 0360     		str	r3, [r0]
+  68:Core/Src/syscalls.c ****         return (void*)-1;
+ 298              		.loc 1 68 9 is_stmt 1 view .LVU69
+  68:Core/Src/syscalls.c ****         return (void*)-1;
+ 299              		.loc 1 68 16 is_stmt 0 view .LVU70
+ 300 002e 0120     		movs	r0, #1
+ 301 0030 4042     		rsbs	r0, r0, #0
+ 302 0032 F3E7     		b	.L10
+ 303              	.L17:
+ 304              		.align	2
+ 305              	.L16:
+ 306 0034 00000000 		.word	heap_end
+ 307 0038 00000000 		.word	_end
+ 308              		.cfi_endproc
+ 309              	.LFE6:
+ 311              		.section	.bss.heap_end,"aw",%nobits
+ 312              		.align	2
+ 315              	heap_end:
+ 316 0000 00000000 		.space	4
+ 317              		.text
+ 318              	.Letext0:
+ 319              		.file 2 "C:\\ST\\STM32CubeIDE_1.19.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltool
+ 320              		.file 3 "C:\\ST\\STM32CubeIDE_1.19.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltool
+ 321              		.file 4 "C:\\ST\\STM32CubeIDE_1.19.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltool
+ 322              		.file 5 "C:\\ST\\STM32CubeIDE_1.19.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltool
+ 323              		.file 6 "C:\\ST\\STM32CubeIDE_1.19.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltool
+ 324              		.file 7 "C:\\ST\\STM32CubeIDE_1.19.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltool
+ 325              		.file 8 "C:\\ST\\STM32CubeIDE_1.19.0\\STM32CubeIDE\\plugins\\com.st.stm32cube.ide.mcu.externaltool
+ARM GAS  C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 syscalls.c
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:19     .text._close:00000000 $t
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:25     .text._close:00000000 _close
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:56     .text._fstat:00000000 $t
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:62     .text._fstat:00000000 _fstat
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:110    .text._isatty:00000000 $t
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:116    .text._isatty:00000000 _isatty
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:136    .text._lseek:00000000 $t
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:142    .text._lseek:00000000 _lseek
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:175    .text._read:00000000 $t
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:181    .text._read:00000000 _read
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:203    .text._write:00000000 $t
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:209    .text._write:00000000 _write
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:230    .text._sbrk:00000000 $t
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:236    .text._sbrk:00000000 _sbrk
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:306    .text._sbrk:00000034 $d
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:315    .bss.heap_end:00000000 heap_end
+C:\Users\einom\AppData\Local\Temp\ccp7QtZk.s:312    .bss.heap_end:00000000 $d
+
+UNDEFINED SYMBOLS
+__errno
+_end
